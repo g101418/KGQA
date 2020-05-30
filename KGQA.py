@@ -1,10 +1,10 @@
 from neo import NeoDB
+import re
 import jieba
 import jieba.posseg as pseg
-
 import logging
 logging.basicConfig(level=logging.ERROR)
-jieba.setLogLevel(logging.INFO)
+
 
 class KGQA(object):
     def __init__(self):
@@ -39,6 +39,8 @@ class KGQA(object):
         :return result: str 如：""
         """
         try:
+            sentence = re.sub("[A-Za-z0-9\!\%\[\]\,\。]", "", sentence)
+            sentence = re.sub('\W+', '', sentence).replace("_", '')
             person, words = self.cut_words(sentence)
 
             words_ = [0 for i in range(len(words))]
@@ -47,7 +49,8 @@ class KGQA(object):
                 if i != len(words)-1:
                     words_[i] += '->(n'+str(i)+':Person)'
             quary = "match(p)" + ''.join(words_) + \
-                "->(n:Person{Name:'"+person+"'}) return  p.Name,n.Name,p.cate,n.cate"
+                "->(n:Person{Name:'"+person + \
+                    "'}) return  p.Name,n.Name,p.cate,n.cate"
             logging.debug(str(quary))
         except Exception as e:
             return '问题有误'
@@ -70,3 +73,8 @@ class KGQA(object):
     def test(self, sentence):
         answer = self.answer(sentence)
         print(answer)
+
+
+if __name__ == "__main__":
+    handler = KGQA()
+    handler.test('贾宝玉的父亲的父亲的妻子')

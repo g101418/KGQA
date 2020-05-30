@@ -1,5 +1,6 @@
 from py2neo import Graph
 
+
 class NeoDB(object):
     def __init__(self):
         super().__init__()
@@ -14,7 +15,7 @@ class NeoDB(object):
             "妾": "妾", "养父": "养父", "姐姐": "姐姐", "娘": "母亲", "爹": "父亲",
             "father": "父亲", "mother": "母亲", "朋友": "朋友", "爷爷": "爷爷", "奶奶": "奶奶",
             "孙子": "孙子", "老公": "丈夫", '岳母': '岳母', "表兄妹": "表兄妹",
-            "孙女": "孙女", "嫂子": "嫂子", "暧昧": "暧昧"
+            "孙女": "孙女", "嫂子": "嫂子", "暧昧": "暧昧", "妻子": "妻", "丫头": "丫环"
         }
 
     def create_graph(self, relation_filename="./data/relation.txt"):
@@ -27,14 +28,19 @@ class NeoDB(object):
             for line in f.readlines():
                 rela_array = line.strip("\n").split(",")
                 print(rela_array)
-                graph.run("MERGE(p: Person{cate:'%s',Name: '%s'})" % (
+                self.graph.run("MERGE(p: Person{cate:'%s',Name: '%s'})" % (
                     rela_array[3], rela_array[0]))
-                graph.run("MERGE(p: Person{cate:'%s',Name: '%s'})" % (
+                self.graph.run("MERGE(p: Person{cate:'%s',Name: '%s'})" % (
                     rela_array[4], rela_array[1]))
-                graph.run(
+                self.graph.run(
                     "MATCH(e: Person), (cc: Person) \
                     WHERE e.Name='%s' AND cc.Name='%s'\
                     CREATE(e)-[r:%s{relation: '%s'}]->(cc)\
                     RETURN r" % (rela_array[0], rela_array[1], rela_array[2], rela_array[2])
                 )
         return
+
+
+if __name__ == "__main__":
+    neo_db = NeoDB()
+    neo_db.create_graph("./data/relation.txt")
