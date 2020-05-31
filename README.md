@@ -8,7 +8,7 @@
 KGQA # python3 neo.py
 ```
 
-<img src="https://github.com/g101418/KGQA/blob/master/%E6%88%AA%E5%9B%BE1.png" alt="image-20200530230253196" style="zoom:50%;" />
+![neo4j截图](https://github.com/g101418/KGQA/blob/master/%E6%88%AA%E5%9B%BE1.png)
 
 
 ## 使用方式：
@@ -17,5 +17,5 @@ KGQA # python3 neo.py
 KGQA # python3 qa.py
 ```
 
-<img src="https://github.com/g101418/KGQA/blob/master/%E6%88%AA%E5%9B%BE2.png" alt="image-20200530230253196" style="zoom:50%;" />
+![运行截图](https://github.com/g101418/KGQA/blob/master/%E6%88%AA%E5%9B%BE2.png)
 
